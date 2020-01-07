@@ -5,13 +5,19 @@
     using todo.Services;
     using Microsoft.AspNetCore.Mvc;
     using Models;
+    using Microsoft.Extensions.Logging;
 
     public class ItemController : Controller
     {
+
         private readonly ICosmosDbService _cosmosDbService;
-        public ItemController(ICosmosDbService cosmosDbService)
+
+        private readonly ILogger _logger;
+
+        public ItemController(ICosmosDbService cosmosDbService, ILogger<ItemController> logger)
         {
             _cosmosDbService = cosmosDbService;
+            _logger = logger;
         }
 
         [ActionName("Index")]
@@ -22,6 +28,8 @@
 
         [ActionName("ForceError")]
         public async Task<IActionResult> ForceError() {
+            _logger.LogError("# DEBUG MESSAGE : FORCE ERROR CALLED");
+
             Item item = await _cosmosDbService.GetItemAsync(null);
             return RedirectToAction("Index");
         }
@@ -113,6 +121,7 @@
         [ActionName("Details")]
         public async Task<ActionResult> DetailsAsync(string id)
         {
+            _logger.LogWarning("# DEBUG MESSAGE# Details called");
             return View(await _cosmosDbService.GetItemAsync(id));
         }
     }

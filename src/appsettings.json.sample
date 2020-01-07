@@ -1,4 +1,7 @@
 {
+  "ApplicationInsights": {
+    "InstrumentationKey" : "[YOUR APPINSIGHTS INSTRUMENTATION KEY"
+  },
   "Logging": {
     "LogLevel": {
       "Default": "Warning"
