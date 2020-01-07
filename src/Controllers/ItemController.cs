@@ -20,6 +20,12 @@
             return View(await _cosmosDbService.GetItemsAsync("SELECT * FROM c"));
         }
 
+        [ActionName("ForceError")]
+        public async Task<IActionResult> ForceError() {
+            Item item = await _cosmosDbService.GetItemAsync(null);
+            return RedirectToAction("Index");
+        }
+
         [ActionName("Create")]
         public IActionResult Create()
         {
@@ -31,6 +37,12 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync([Bind("Id,Name,Description,Completed")] Item item)
         {
+
+            if (string.Equals(item.Name?.TrimEnd(), "Error", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ArgumentException(
+                    $"Cannn register item with title {item.Name}.", nameof(item.Name));
+            }
             if (ModelState.IsValid)
             {
                 item.Id = Guid.NewGuid().ToString();
