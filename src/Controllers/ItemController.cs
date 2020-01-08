@@ -121,7 +121,11 @@
         [ActionName("Details")]
         public async Task<ActionResult> DetailsAsync(string id)
         {
-            _logger.LogWarning("# DEBUG MESSAGE# Details called");
+            _logger.LogWarning("# WARN MESSAGE # Details called");
+            _logger.LogError("# ERROR MESSAGE # Details Called");
+            _logger.LogDebug("# DEBUG MESSAGE # Details Called");
+            _logger.LogInformation(" INFO MESSAGE # Details Called");
+            _logger.LogTrace("# TRACE MESSAGE # Details Called");
             return View(await _cosmosDbService.GetItemAsync(id));
         }
     }
